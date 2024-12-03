@@ -1,4 +1,17 @@
-import { usuarios } from "../models/ModelUsuario.js";
+let urlUsuarios = "http://localhost:3000/modelUsuario";
+let usuarios = []
+
+function getUsuarios(){
+  fetch(urlUsuarios)
+  .then((response) => response.json())
+  .then((data) => {
+    usuarios = data
+    console.log(usuarios)
+  })
+  .catch((error) => console.log(error))
+}
+
+getUsuarios()
 
 export function login() {
   let loginUsuario = document.getElementById("login-usuario").value;
@@ -54,10 +67,19 @@ export function register() {
     contrasena: registroContrasena,
     confirmar: registroConfirmar,
   };
-  usuarios.unshift(newRegistro);
+  // usuarios.unshift(newRegistro);
   document.getElementById("form-register").style.display = "none";
   document.getElementById("form-login").style.display = "flex";
-  console.log(usuarios);
+  // console.log(usuarios);
+  agregarUsuario(newRegistro)
+}
+
+function agregarUsuario(newRegistro){
+  console.log(newRegistro);
+  fetch(urlUsuarios, {
+    method: 'POST',
+    body: JSON.stringify(newRegistro)
+  })
 }
 
 // let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
